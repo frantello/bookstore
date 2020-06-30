@@ -1,0 +1,55 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'war'
+    id 'org.gretty' version '3.0.3'
+}
+
+group 'com.mm.bookstore'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+ext {
+    servletVersion = '4.0.1'
+    jpaVersion = '2.2'
+    springWebflowVersion = '2.4.8.RELEASE'
+    jstlVersion = '1.2'
+    springDataVersion = '1.11.23.RELEASE'
+    hiberanteVersion = '3.6.10.Final'
+    tilesVersion = '3.0.8'
+    hsqldbVersion = '2.5.1'
+    junitVersion = '5.6.2'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compileOnly("javax.servlet:javax.servlet-api:${servletVersion}")
+    implementation("org.hibernate:hibernate-entitymanager:${hiberanteVersion}")
+    implementation("org.springframework.webflow:spring-webflow:${springWebflowVersion}")
+    implementation("org.springframework.webflow:spring-webflow:${springWebflowVersion}")
+    implementation("jstl:jstl:${jstlVersion}")
+    implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
+    implementation("org.hsqldb:hsqldb:${hsqldbVersion}")
+    implementation("org.apache.tiles:tiles-jsp:${tilesVersion}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gretty {
+    servletContainer = 'jetty9'
+}
+
+war {
+
+}
