@@ -32,7 +32,6 @@ dependencies {
     compileOnly("javax.servlet:javax.servlet-api:${servletVersion}")
     implementation("org.hibernate:hibernate-entitymanager:${hiberanteVersion}")
     implementation("org.springframework.webflow:spring-webflow:${springWebflowVersion}")
-    implementation("org.springframework.webflow:spring-webflow:${springWebflowVersion}")
     implementation("jstl:jstl:${jstlVersion}")
     implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
     implementation("org.hsqldb:hsqldb:${hsqldbVersion}")
