@@ -15,7 +15,6 @@ repositories {
 
 ext {
     servletVersion = '4.0.1'
-    jpaVersion = '2.2'
     springWebflowVersion = '2.4.8.RELEASE'
     jstlVersion = '1.2'
     springDataVersion = '1.11.23.RELEASE'
