@@ -35,14 +35,12 @@ public class BookController {
     public ModelAndView saveBook(@ModelAttribute Book book, HttpServletRequest request) {
         bookUseCase.save(book);
         System.out.println(book.getId());
+        book.setName("José Francisco");
         System.out.println(book.getName());
         System.out.println(book.getAuthor());
 
         System.out.println("Request");
         System.out.println(request.getCharacterEncoding());
-
-        System.out.println("TEST");
-        System.out.println("José");
         return new ModelAndView("redirect:books");
     }
 }
