@@ -54,8 +54,6 @@ if [ -f "$local_source_dir/pom.xml" ]; then
   if [ -d $local_source_dir/cfg ]; then
     echo "Copying config files from project..."
     cp cfg/* /wildfly/standalone/configuration
-    echo "Overriding config..."
-    cp $local_source_dir/.s2i/standalone.xml /wildfly/standalone/configuration
   fi
 
   if [ -d $local_source_dir/modules ]; then
