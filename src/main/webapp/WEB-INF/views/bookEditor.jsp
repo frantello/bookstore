@@ -2,7 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<form:form method="POST" action="${pageContext.request.contextPath}/saveBook" modelAttribute="book">
+<form:form method="POST"
+           action="${pageContext.request.contextPath}/saveBook"
+           enctype="application/x-www-form-urlencoded;charset=UTF-8"
+           modelAttribute="book">
     <table>
         <tr>
             <td><form:label path="id">Id</form:label></td>
