@@ -14,3 +14,8 @@
 
 <c:url value="/bookEditor" var="addBookUrl" />
 <a href="${addBookUrl}">Add</a>
+<script>
+    $(function() {
+        alert('ready!')
+    });
+</script>
