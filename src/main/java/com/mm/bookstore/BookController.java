@@ -33,9 +33,9 @@ public class BookController {
 
     @RequestMapping("saveBook")
     public ModelAndView saveBook(@ModelAttribute Book book, HttpServletRequest request) {
+        book.setName("José Francisco");
         bookUseCase.save(book);
         System.out.println(book.getId());
-        book.setName("José Francisco");
         System.out.println(book.getName());
         System.out.println(book.getAuthor());
 
