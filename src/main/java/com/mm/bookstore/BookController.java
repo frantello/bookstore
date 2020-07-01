@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class BookController {
 
@@ -30,10 +32,15 @@ public class BookController {
     }
 
     @RequestMapping("saveBook")
-    public ModelAndView saveBook(@ModelAttribute Book book) {
+    public ModelAndView saveBook(@ModelAttribute Book book, HttpServletRequest request) {
         bookUseCase.save(book);
         System.out.println(book.getId());
         System.out.println(book.getName());
+        System.out.println(book.getAuthor());
+
+        System.out.println("Request");
+        System.out.println(request.getCharacterEncoding());
+
         System.out.println(bookUseCase.findAll());
         return new ModelAndView("redirect:books");
     }
