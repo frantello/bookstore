@@ -41,7 +41,8 @@ public class BookController {
         System.out.println("Request");
         System.out.println(request.getCharacterEncoding());
 
-        System.out.println(bookUseCase.findAll());
+        System.out.println("TEST");
+        System.out.println("José");
         return new ModelAndView("redirect:books");
     }
 }
