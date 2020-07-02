@@ -27,19 +27,23 @@ mkdir -p $deploy_dir
 # Copy the source from the bind mount in preparation for compilation
 cp -ad /tmp/src/* $local_source_dir
 
+# If a build.gradle is present, this is a normal build scenario
+# so run gradle.
+
 # If a pom.xml is present, this is a normal build scenario 
 # so run maven.
-if [ -f "$local_source_dir/pom.xml" ]; then
+if [ -f "$local_source_dir/build.gradle" ]; then
+elif [ -f "$local_source_dir/pom.xml" ]; then
   # restore any maven dependencies which will be present if this is an
   # incremental build
   restore_saved_artifacts
   
   pushd $local_source_dir &> /dev/null
   JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
-  mvn clean package -Popenshift -DskipTests
+  ./gradlew war
   err=$?
   if [ $err -ne 0 ]; then
-    echo "Aborting due to error code $err from mvn package"
+    echo "Aborting due to error code $err from gradle package"
     exit $err
   fi
 
@@ -47,8 +51,8 @@ if [ -f "$local_source_dir/pom.xml" ]; then
   if [ -d $local_source_dir/target ]; then
     cp $local_source_dir/target/*.war $deploy_dir >& /dev/null
   fi
-  if [ -d $local_source_dir/deployments ]; then
-    cp $local_source_dir/deployments/*.war $deploy_dir >& /dev/null
+  if [ -d $local_source_dir/build/libs/exploded ]; then
+    cp local_source_dir/build/libs/exploded/*.war $deploy_dir >& /dev/null
   fi
   
   if [ -d $local_source_dir/cfg ]; then

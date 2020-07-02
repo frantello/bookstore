@@ -49,5 +49,5 @@ gretty {
 }
 
 war {
-
+    archiveFileName = 'ROOT.war'
 }
