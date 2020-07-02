@@ -29,7 +29,8 @@ cp -ad /tmp/src/* $local_source_dir
 
 # If a build.gradle is present, this is a normal build scenario
 # so run gradle.
-if [ -f "$local_source_dir/build.gradle" ]; then
+if [ -f "$local_source_dir/gradlew" ]; then
+  echo "GRADLE"
 
   pushd $local_source_dir &> /dev/null
   JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
@@ -64,6 +65,8 @@ if [ -f "$local_source_dir/build.gradle" ]; then
 elif [ -f "$local_source_dir/pom.xml" ]; then
   # restore any maven dependencies which will be present if this is an
   # incremental build
+  echo "MAVEN"
+
   restore_saved_artifacts
 
   pushd $local_source_dir &> /dev/null
