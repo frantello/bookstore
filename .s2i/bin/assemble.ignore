@@ -29,15 +29,8 @@ cp -ad /tmp/src/* $local_source_dir
 
 # If a build.gradle is present, this is a normal build scenario
 # so run gradle.
-
-# If a pom.xml is present, this is a normal build scenario 
-# so run maven.
 if [ -f "$local_source_dir/build.gradle" ]; then
-elif [ -f "$local_source_dir/pom.xml" ]; then
-  # restore any maven dependencies which will be present if this is an
-  # incremental build
-  restore_saved_artifacts
-  
+
   pushd $local_source_dir &> /dev/null
   JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
   ./gradlew war
@@ -48,11 +41,46 @@ elif [ -f "$local_source_dir/pom.xml" ]; then
   fi
 
   echo "Copying built war files into $deploy_dir for later deployment..."
+  if [ -d $local_source_dir/build/libs/ ]; then
+    cp local_source_dir/build/libs/*.war $deploy_dir/ROOT.war >& /dev/null
+  fi
+
+  if [ -d $local_source_dir/cfg ]; then
+    echo "Copying config files from project..."
+    cp cfg/* /wildfly/standalone/configuration
+  fi
+
+  if [ -d $local_source_dir/modules ]; then
+    echo "Copying modules from project..."
+    mkdir /wildfly/provided_modules
+    cp -r modules/* /wildfly/provided_modules
+  fi
+
+  echo "...done"
+
+  popd &> /dev/null
+# If a pom.xml is present, this is a normal build scenario
+# so run maven.
+elif [ -f "$local_source_dir/pom.xml" ]; then
+  # restore any maven dependencies which will be present if this is an
+  # incremental build
+  restore_saved_artifacts
+
+  pushd $local_source_dir &> /dev/null
+  JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
+  mvn clean package -Popenshift -DskipTests
+  err=$?
+  if [ $err -ne 0 ]; then
+    echo "Aborting due to error code $err from mvn package"
+    exit $err
+  fi
+
+  echo "Copying built war files into $deploy_dir for later deployment..."
   if [ -d $local_source_dir/target ]; then
     cp $local_source_dir/target/*.war $deploy_dir >& /dev/null
   fi
-  if [ -d $local_source_dir/build/libs/exploded ]; then
-    cp local_source_dir/build/libs/exploded/*.war $deploy_dir >& /dev/null
+  if [ -d $local_source_dir/deployments ]; then
+    cp $local_source_dir/deployments/*.war $deploy_dir >& /dev/null
   fi
   
   if [ -d $local_source_dir/cfg ]; then
